@@ -17,7 +17,7 @@ public class FilmDAOImpl implements FilmDAO {
 	private String user = "student";
 	private String pass = "student";
 
-	private static final String URL = "jdbc:mysql://localhost:3306/sdvid?useSSL=false";
+	private String URL = "jdbc:mysql://localhost:3306/sdvid?useSSL=false&useLegacyDatetimeCode=false&serverTimezone=MST";
 
 	static {
 		try {
@@ -178,36 +178,40 @@ public class FilmDAOImpl implements FilmDAO {
 
 	@Override
 	public Film createFilm(Film film) throws SQLException {
-		int languageId = 4;
+		System.out.println(film);
+		Film newFilm = null;
+		int newFilmId = 0;
+//		int languageId = 4;
 		Connection conn = null;
 		try {
 			conn = DriverManager.getConnection(URL, user, pass);
 			conn.setAutoCommit(false); // START TRANSACTION
-			String sql = "INSERT INTO film (title, description, release_year, language_id) VALUES (?,?,?,?)";
+			String sql = "INSERT INTO film (title, description, release_year, language_id, rating) VALUES (?,?,?,4,?)";
 			PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			stmt.setString(1, film.getTitle());
 			stmt.setString(2, film.getDescription());
 			stmt.setInt(3, film.getReleaseYear());
-			stmt.setString(4, languageFromId(languageId));
+//			stmt.setInt(4, film.getLanguageId(languageId));
+			stmt.setString(4, film.getRating());
 			int updateCount = stmt.executeUpdate();
+//			System.out.println(updateCount); // make sure its not 0
 			if (updateCount == 1) {
 				ResultSet keys = stmt.getGeneratedKeys();
-				if (keys.next()) {
-					int newFilmId = keys.getInt(1);
+				System.out.println("Keys are: " + keys);
+				while (keys.next()) {
+
+					newFilmId = keys.getInt(1);
+					
+					System.out.println("In new film id: " + newFilmId);
 					film.setId(newFilmId);
-//					if (film.getFilms() != null && film.getFilms().size() > 0) {
-//						sql = "INSERT INTO film_actor (film_id, actor_id) VALUES (?,?)";
-//						stmt = conn.prepareStatement(sql);
-//						for (Film film : film.getFilms()) {
-//							stmt.setInt(1, film.getId());
-//							stmt.setInt(2, newFilmId);
-							updateCount = stmt.executeUpdate();
+
 				}
 			} else {
 				film = null;
 			}
 
 			conn.commit(); // COMMIT TRANSACTION
+
 		} catch (SQLException sqle) {
 			sqle.printStackTrace();
 			if (conn != null) {
@@ -217,8 +221,10 @@ public class FilmDAOImpl implements FilmDAO {
 					System.err.println("Error trying to rollback");
 				}
 			}
-			throw new RuntimeException("Error inserting film " + film);
+			throw new RuntimeException("Error inserting film");
 		}
+//		newFilm = findFilmById(newFilmId);
+
 		return film;
 	}
 

@@ -38,10 +38,12 @@ public class FilmController {
 	
 	@RequestMapping(path="addFilm.do", method=RequestMethod.POST)
 	public ModelAndView processFilm(Film film) throws SQLException {
+		Film newFilm = filmDao.createFilm(film);
 		
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("WEB-INF/views/result.jsp");
-		mv.addObject("film", filmDao.createFilm(film));
+		mv.setViewName("WEB-INF/views/results.jsp");
+		mv.addObject("film", newFilm);
+		mv.addObject("language", filmDao.languageFromId(newFilm.getId()));
 		return mv;
 	}
 
