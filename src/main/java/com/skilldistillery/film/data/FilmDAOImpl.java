@@ -208,6 +208,7 @@ public class FilmDAOImpl implements FilmDAO {
 				}
 			} else {
 				film = null;
+				
 			}
 
 			conn.commit(); // COMMIT TRANSACTION

@@ -27,6 +27,25 @@ public class FilmController {
 		return mv;
 	}
 	
+	@RequestMapping(path="filmById.do", method=RequestMethod.GET)
+	public ModelAndView viewFilmByIDPage() throws SQLException {
+		
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("WEB-INF/views/filmbyid.jsp");
+
+		return mv;
+	}
+	@RequestMapping(path="filmById.do", params="id", method=RequestMethod.GET)
+	public ModelAndView filmByID(int id) throws SQLException { // int id here has to match params="id"
+		
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("WEB-INF/views/filmbyidresults.jsp");
+		mv.addObject("film", filmDao.findFilmById(id));
+		mv.addObject("language", filmDao.languageFromId(id));
+		return mv;
+	}
+	
+	
 	@RequestMapping(path="addFilm.do", method=RequestMethod.GET)
 	public ModelAndView goToAddFilmPage() throws SQLException {
 		
