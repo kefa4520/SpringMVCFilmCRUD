@@ -17,7 +17,7 @@ public class Film {
 	private String rating;
 	private String specialFeatures;
 	private List<Actor> actors;
-	// need a list of actors
+	
 	
 	public Film() {
 		

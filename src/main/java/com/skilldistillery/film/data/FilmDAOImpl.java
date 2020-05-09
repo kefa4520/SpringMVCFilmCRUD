@@ -178,4 +178,10 @@ public class FilmDAOImpl implements FilmDAO {
 		return language;
 	}
 
+	@Override
+	public Film createFilm(Film film) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
