@@ -15,7 +15,7 @@
         <li>${film.title}</li>
         <li>${film.description}</li>
         <li>${film.releaseYear}</li>
-        <li>${film.language}</li>
+        <li>${language}</li>
       </ul>
     </c:when>
     <c:otherwise>
