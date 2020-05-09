@@ -5,15 +5,15 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.skilldistillery.film.entities.Actor;
 import com.skilldistillery.film.entities.Film;
 
-
 public class FilmDAOImpl implements FilmDAO {
-	
+
 	private String user = "student";
 	private String pass = "student";
 
@@ -30,7 +30,7 @@ public class FilmDAOImpl implements FilmDAO {
 	@Override
 	public Film findFilmById(int filmId) throws SQLException {
 		Film film = null;
-		
+
 		Connection conn = DriverManager.getConnection(URL, user, pass);
 
 		String sql = "SELECT * FROM film WHERE id = ?";
@@ -83,7 +83,7 @@ public class FilmDAOImpl implements FilmDAO {
 		rs.close();
 		ps.close();
 		conn.close();
-		
+
 		return actor;
 
 	}
@@ -92,47 +92,45 @@ public class FilmDAOImpl implements FilmDAO {
 	public List<Actor> findActorsByFilmId(int filmId) throws SQLException {
 		List<Actor> actors = new ArrayList<>();
 
-		    Connection conn = DriverManager.getConnection(URL, user, pass);
-		    String sql = "SELECT actor.* " + 
-		    		"FROM actor JOIN film_actor ON film_actor.actor_id = actor.id " + 
-		    		"JOIN film ON film.id = film_actor.film_id WHERE film_id = ?";
-		    PreparedStatement stmt = conn.prepareStatement(sql);
-		    stmt.setInt(1, filmId);
-		    ResultSet rs = stmt.executeQuery();
-		    while (rs.next()) {
-		    	int actorId = rs.getInt("id");
-		    	String actorFirstName = rs.getString("first_name");
-		    	String actorLastName = rs.getString("last_name");
-		    	Actor actor = new Actor(actorId, actorFirstName, actorLastName);
-		    	actors.add(actor);
-		    	
-		    	
-		    }
-		    rs.close();
-		    stmt.close();
-		    conn.close();
-		
-		  return actors;
+		Connection conn = DriverManager.getConnection(URL, user, pass);
+		String sql = "SELECT actor.* " + "FROM actor JOIN film_actor ON film_actor.actor_id = actor.id "
+				+ "JOIN film ON film.id = film_actor.film_id WHERE film_id = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, filmId);
+		ResultSet rs = stmt.executeQuery();
+		while (rs.next()) {
+			int actorId = rs.getInt("id");
+			String actorFirstName = rs.getString("first_name");
+			String actorLastName = rs.getString("last_name");
+			Actor actor = new Actor(actorId, actorFirstName, actorLastName);
+			actors.add(actor);
+
+		}
+		rs.close();
+		stmt.close();
+		conn.close();
+
+		return actors;
 	}
 
 	@Override
 	public List<Film> findFilmByKeyword(String keyword) throws SQLException {
 		List<Film> films = new ArrayList<>();
 		Film film = null;
-		
+
 		Connection conn = DriverManager.getConnection(URL, user, pass);
-		
+
 		String sql = "SELECT * FROM film WHERE title LIKE ? OR description like ?";
-		
+
 		PreparedStatement ps = conn.prepareStatement(sql);
-	
+
 		ps.setString(1, "%" + keyword + "%");
 		ps.setString(2, "%" + keyword + "%");
-		
+
 		ResultSet rs = ps.executeQuery();
-		
-		while (rs.next()){
-			
+
+		while (rs.next()) {
+
 			film = new Film();
 			film.setId(rs.getInt("id"));
 			film.setTitle(rs.getString("title"));
@@ -145,13 +143,13 @@ public class FilmDAOImpl implements FilmDAO {
 			film.setReplacementCost(rs.getDouble("replacement_cost"));
 			film.setRating(rs.getString("rating"));
 			film.setSpecialFeatures(rs.getString("special_features"));
-		    film.setActors(findActorsByFilmId(rs.getInt("id")));
-		    film.setLanguageString(languageFromId(rs.getInt("id")));
+			film.setActors(findActorsByFilmId(rs.getInt("id")));
+			film.setLanguageString(languageFromId(rs.getInt("id")));
 			films.add(film);
 		}
 		rs.close();
-	    ps.close();
-	    conn.close();
+		ps.close();
+		conn.close();
 		return films;
 	}
 
@@ -160,28 +158,68 @@ public class FilmDAOImpl implements FilmDAO {
 		String language = null;
 
 		Connection conn = DriverManager.getConnection(URL, user, pass);
-		    
+
 		String sql = "SELECT language.name FROM language"
-		    		+ " JOIN film ON film.language_id = language.id WHERE film.id = ?";
-		
+				+ " JOIN film ON film.language_id = language.id WHERE film.id = ?";
+
 		PreparedStatement ps = conn.prepareStatement(sql);
 		ps.setInt(1, filmId);
-		
+
 		ResultSet rs = ps.executeQuery();
-		
+
 		while (rs.next()) {
 			language = rs.getString("language.name");
 		}
 		rs.close();
-	    ps.close();
-	    conn.close();
+		ps.close();
+		conn.close();
 		return language;
 	}
 
 	@Override
 	public Film createFilm(Film film) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		int languageId = 4;
+		Connection conn = null;
+		try {
+			conn = DriverManager.getConnection(URL, user, pass);
+			conn.setAutoCommit(false); // START TRANSACTION
+			String sql = "INSERT INTO film (title, description, release_year, language_id) VALUES (?,?,?,?)";
+			PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			stmt.setString(1, film.getTitle());
+			stmt.setString(2, film.getDescription());
+			stmt.setInt(3, film.getReleaseYear());
+			stmt.setString(4, languageFromId(languageId));
+			int updateCount = stmt.executeUpdate();
+			if (updateCount == 1) {
+				ResultSet keys = stmt.getGeneratedKeys();
+				if (keys.next()) {
+					int newFilmId = keys.getInt(1);
+					film.setId(newFilmId);
+//					if (film.getFilms() != null && film.getFilms().size() > 0) {
+//						sql = "INSERT INTO film_actor (film_id, actor_id) VALUES (?,?)";
+//						stmt = conn.prepareStatement(sql);
+//						for (Film film : film.getFilms()) {
+//							stmt.setInt(1, film.getId());
+//							stmt.setInt(2, newFilmId);
+							updateCount = stmt.executeUpdate();
+				}
+			} else {
+				film = null;
+			}
+
+			conn.commit(); // COMMIT TRANSACTION
+		} catch (SQLException sqle) {
+			sqle.printStackTrace();
+			if (conn != null) {
+				try {
+					conn.rollback();
+				} catch (SQLException sqle2) {
+					System.err.println("Error trying to rollback");
+				}
+			}
+			throw new RuntimeException("Error inserting film " + film);
+		}
+		return film;
 	}
 
 }
