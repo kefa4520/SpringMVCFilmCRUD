@@ -10,6 +10,7 @@
 <body>
   <h3>Add Film</h3>
   <form action="addFilm.do" method="POST">
+  	
     Title:
     <input type="text" name="title"/> 
     Description:
