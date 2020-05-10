@@ -154,20 +154,20 @@ public class FilmDAOImpl implements FilmDAO {
 	}
 
 	@Override
-	public String languageFromId(int filmId) throws SQLException {
+	public String languageFromId(int languageId) throws SQLException {
 		String language = null;
 
 		Connection conn = DriverManager.getConnection(URL, user, pass);
 
 		String sql = "SELECT language.name FROM language"
-				+ " JOIN film ON film.language_id = language.id WHERE film.id = ?";
+				+ " WHERE language.id = ?";
 
 		PreparedStatement ps = conn.prepareStatement(sql);
-		ps.setInt(1, filmId);
-
+		ps.setInt(1, languageId);
+		System.out.println(ps);
 		ResultSet rs = ps.executeQuery();
 
-		while (rs.next()) {
+		if (rs.next()) {
 			language = rs.getString("language.name");
 		}
 		rs.close();
@@ -178,7 +178,7 @@ public class FilmDAOImpl implements FilmDAO {
 
 	@Override
 	public Film createFilm(Film film) throws SQLException {
-		System.out.println(film);
+		
 		Film newFilm = null;
 		int newFilmId = 0;
 //		int languageId = 4;
@@ -197,19 +197,15 @@ public class FilmDAOImpl implements FilmDAO {
 //			System.out.println(updateCount); // make sure its not 0
 			if (updateCount == 1) {
 				ResultSet keys = stmt.getGeneratedKeys();
-				System.out.println("Keys are: " + keys);
+				
 				while (keys.next()) {
 
 					newFilmId = keys.getInt(1);
-					
-					System.out.println("In new film id: " + newFilmId);
 					film.setId(newFilmId);
 
 				}
 			} else {
-				
 				film = null;
-				
 			}
 
 			conn.commit(); // COMMIT TRANSACTION
@@ -258,6 +254,57 @@ public class FilmDAOImpl implements FilmDAO {
 		  }
 		  return true;
 		
+	}
+
+	@Override
+	public Film updateFilm(Film film) throws SQLException {
+		
+		Film newFilm = null;
+		int updatedFilmId = film.getId();
+		int languageId = 0;
+		Connection conn = null;
+		try {
+			conn = DriverManager.getConnection(URL, user, pass);
+			conn.setAutoCommit(false); // START TRANSACTION
+			String sql = "UPDATE film SET title=?, description=?, release_year=?, language_id=?, rating=? WHERE id =?";
+			PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			stmt.setString(1, film.getTitle());
+			stmt.setString(2, film.getDescription());
+			stmt.setInt(3, film.getReleaseYear());
+			stmt.setInt(4, film.getLanguageId());
+			stmt.setString(5, film.getRating());
+			stmt.setInt(6, updatedFilmId);
+			int updateCount = stmt.executeUpdate();
+//			System.out.println(updateCount); // make sure its not 0
+			if (updateCount == 1) {
+				ResultSet keys = stmt.getGeneratedKeys();
+				
+				while (keys.next()) {
+
+					updatedFilmId = keys.getInt(1);
+					film.setId(updatedFilmId);
+
+				}
+			} else {
+				film = null;
+			}
+
+			conn.commit(); // COMMIT TRANSACTION
+
+		} catch (Exception sqle) {
+			sqle.printStackTrace();
+			if (conn != null) {
+				try {
+					conn.rollback();
+				} catch (SQLException sqle2) {
+					System.err.println("Error trying to rollback");
+				}
+			}
+//			throw new RuntimeException("Error inserting film");
+		}
+//		newFilm = findFilmById(newFilmId);
+
+		return film;
 	}
 
 }

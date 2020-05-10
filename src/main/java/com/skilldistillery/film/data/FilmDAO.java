@@ -15,4 +15,5 @@ public interface FilmDAO {
 	  public String languageFromId(int filmId) throws SQLException;
 	  public Film createFilm(Film film) throws SQLException;
 	  public boolean deleteFilm(int filmId) throws SQLException;
+	  public Film updateFilm(Film film) throws SQLException;
 }

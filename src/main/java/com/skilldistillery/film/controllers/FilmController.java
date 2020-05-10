@@ -41,7 +41,7 @@ public class FilmController {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("WEB-INF/views/filmbyidresults.jsp");
 		mv.addObject("film", filmDao.findFilmById(id));
-		mv.addObject("language", filmDao.languageFromId(id));
+		mv.addObject("languageString", filmDao.languageFromId(id));
 		return mv;
 	}
 	
@@ -64,8 +64,27 @@ public class FilmController {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("WEB-INF/views/results.jsp");
 		mv.addObject("film", newFilm);
-		mv.addObject("language", filmDao.languageFromId(newFilm.getId()));
+		mv.addObject("languageString", filmDao.languageFromId(1));
 		return mv;
+		}
+		else {
+			ModelAndView mv = new ModelAndView();
+			mv.setViewName("WEB-INF/views/error.jsp");
+			return mv;
+		}
+	}
+	@RequestMapping(path="updateFilm.do", params="title", method=RequestMethod.POST)
+	public ModelAndView updateFilm(Film film) throws SQLException {
+		if (film != null && film.getTitle() != "" && film.getDescription() != "" && film.getRating() != "") {
+			System.out.println("********: " + film);
+			Film updatedFilm = filmDao.updateFilm(film);
+//			System.out.println("new film is: " + updatedFilm);
+//			System.out.println("film is" + film);
+			ModelAndView mv = new ModelAndView();
+			mv.setViewName("WEB-INF/views/filmbyidresults.jsp");
+			mv.addObject("film", updatedFilm);
+			mv.addObject("languageString", filmDao.languageFromId(1));
+			return mv;
 		}
 		else {
 			ModelAndView mv = new ModelAndView();
