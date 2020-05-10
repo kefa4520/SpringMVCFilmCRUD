@@ -207,13 +207,14 @@ public class FilmDAOImpl implements FilmDAO {
 
 				}
 			} else {
+				
 				film = null;
 				
 			}
 
 			conn.commit(); // COMMIT TRANSACTION
 
-		} catch (SQLException sqle) {
+		} catch (Exception sqle) {
 			sqle.printStackTrace();
 			if (conn != null) {
 				try {
@@ -222,7 +223,7 @@ public class FilmDAOImpl implements FilmDAO {
 					System.err.println("Error trying to rollback");
 				}
 			}
-			throw new RuntimeException("Error inserting film");
+//			throw new RuntimeException("Error inserting film");
 		}
 //		newFilm = findFilmById(newFilmId);
 
