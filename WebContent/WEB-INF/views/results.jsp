@@ -24,7 +24,7 @@
       <p>No film created</p>
     </c:otherwise>
   </c:choose>
-      <form action="updateFilm.do" method="POST">
+    <form action="updateFilm.do" method="POST">
   	Change the film?:
   	<br>
   	<input type="hidden" name="id" value="${film.id}"/>

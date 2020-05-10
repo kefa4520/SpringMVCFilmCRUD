@@ -35,7 +35,7 @@ public class FilmController {
 
 		return mv;
 	}
-	@RequestMapping(path="filmById.do", params="id", method=RequestMethod.GET)
+	@RequestMapping(path="filmById.do", params="id", method= {RequestMethod.GET, RequestMethod.POST})
 	public ModelAndView filmByID(int id) throws SQLException { // int id here has to match params="id"
 		
 		ModelAndView mv = new ModelAndView();
