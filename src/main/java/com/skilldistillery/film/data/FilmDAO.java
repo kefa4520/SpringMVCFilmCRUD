@@ -14,4 +14,5 @@ public interface FilmDAO {
 	  public List<Film> findFilmByKeyword(String keyword) throws SQLException;
 	  public String languageFromId(int filmId) throws SQLException;
 	  public Film createFilm(Film film) throws SQLException;
+	  public boolean deleteFilm(int filmId) throws SQLException;
 }

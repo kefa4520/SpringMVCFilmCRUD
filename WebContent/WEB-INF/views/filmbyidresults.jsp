@@ -12,15 +12,23 @@
   <c:choose>
     <c:when test="${! empty film}">
       <ul>
-        <li>${film.title}</li>
-        <li>${film.description}</li>
-        <li>${film.releaseYear}</li>
-        <li>${language}</li>
+     	<li>ID: ${film.id }</li>
+        <li>TITLE: ${film.title}</li>
+        <li>DESCRIPTION: ${film.description}</li>
+        <li>RELEASE YEAR: ${film.releaseYear}</li>
+        <li>LANGUAGE: ${language}</li>
       </ul>
     </c:when>
     <c:otherwise>
       <p>No film with that ID!</p>
     </c:otherwise>
   </c:choose>
+      Delete this film?
+    <form action="deleteFilm.do" method="POST">
+    Enter the film ID to Delete:
+ 	<input type="number" name="filmId"/>
+    <input type="submit" value="Delete Film"/>
+  </form>
+
 </body>
 </html>
