@@ -44,15 +44,15 @@
     	<option value="R">Restricted</option>
     	<option value="NC17">Adults Only</option>
     </select>
-    Language:
-    <select id="languages" name="languageString">
+    <!-- Language:
+    <select id="languageId" name="languageId">
     	<option value="1">English</option>
     	<option value="2">Italian</option>
     	<option value="3">Japanese</option>
     	<option value="4">Mandarin</option>
     	<option value="5">French</option>
     	<option value="6">German</option>
-    </select>
+    </select> -->
     <input type="submit" value="Update Film Data"/>
   </form>
 
