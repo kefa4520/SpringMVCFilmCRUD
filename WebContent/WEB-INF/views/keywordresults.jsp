@@ -13,6 +13,7 @@
  	
   <c:choose>
     <c:when test="${! empty film}">
+    ${film}
       <ul>
      	<li>ID: ${film.id }</li>
         <li>TITLE: ${film.title}</li>
@@ -20,10 +21,11 @@
         <li>RELEASE YEAR: ${film.releaseYear}</li>
         <li>LANGUAGE: ${languageString}</li>
         <li>RATING: ${film.rating}</li>
+        <li>ACTORS: ${actors}</li>
       </ul>
     </c:when>
     <c:otherwise>
-      <p>No film with that ID!</p>
+      <p>No film with that keyword!</p>
     </c:otherwise>
   </c:choose>
     Delete this film?
@@ -36,7 +38,14 @@
   	Change the film?:
   	<br>
   	<input type="hidden" name="id" value="${film.id}"/>
+  	<c:choose>
+  	 <c:when test="${film.id > 1000}">
   	<input type="hidden" name="languageId" value="1"/>
+  	</c:when>
+  	<c:otherwise>
+  	<input type="hidden" name="languageId" value="${film.languageId}"/>
+  	</c:otherwise>
+  	</c:choose>
     Title:
     <input type="text" name="title" value="${film.title}"/> 
     Description:

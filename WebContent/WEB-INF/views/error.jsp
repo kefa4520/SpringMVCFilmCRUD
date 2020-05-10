@@ -9,7 +9,7 @@
 </head>
 <body>
 
-  <h3>Error creating the Film!</h3>
+  <h3>Error creating/or updating the Film!</h3>
 
 </body>
 </html>

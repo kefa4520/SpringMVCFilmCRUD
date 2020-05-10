@@ -18,6 +18,7 @@
         <li>RELEASE YEAR: ${film.releaseYear}</li>
         <li>LANGUAGE: ${languageString}</li>
         <li>RATING: ${film.rating}</li>
+        <li>ACTORS: ${actors}</li>
       </ul>
     </c:when>
     <c:otherwise>

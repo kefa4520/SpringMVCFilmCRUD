@@ -42,6 +42,7 @@ public class FilmController {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("WEB-INF/views/filmbyidresults.jsp");
 		mv.addObject("film", filmDao.findFilmById(id));
+		mv.addObject("actors", filmDao.findActorsByFilmId(id));
 		mv.addObject("languageString", filmDao.languageFromId(film.getLanguageId()));
 		return mv;
 	}
@@ -54,13 +55,14 @@ public class FilmController {
 		return mv;
 	}
 	
-	@RequestMapping(path="filmByKeyword.do", params="keyword", method= {RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(path="filmByKeyword.do", params="keyword", method= RequestMethod.GET)
 	public ModelAndView filmByKeyword(String keyword) throws SQLException { 
 		List<Film> films = filmDao.findFilmByKeyword(keyword);
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("WEB-INF/views/keywordresults.jsp");
 		for (Film film : films) {
-			mv.addObject("languageString", filmDao.languageFromId(film.getLanguageId()));
+		mv.addObject("languageString", filmDao.languageFromId(film.getLanguageId()));
+		mv.addObject("actors", filmDao.findActorsByFilmId(film.getId()));
 		}
 		mv.addObject("films", films);
 		return mv;
