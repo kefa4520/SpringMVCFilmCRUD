@@ -73,6 +73,17 @@ public class FilmController {
 			return mv;
 		}
 	}
+	
+	@RequestMapping(path="deleteFilm.do", params="filmId", method=RequestMethod.POST)
+	public ModelAndView deletefilmByID(int filmId) throws SQLException { 
+		
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("WEB-INF/views/filmdeleted.jsp");
+		mv.addObject("deleted", filmDao.deleteFilm(filmId));
+		
+		
+		return mv;
+	}
 
 
 	public void setFilmDao(FilmDAO filmDao) {

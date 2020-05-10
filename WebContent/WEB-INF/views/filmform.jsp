@@ -18,6 +18,7 @@
     <input type="number" name="releaseYear"/>
     Rating: 
     <input type="text" name="rating"/>
+    
     <input type="submit" value="Add Film Data"/>
   </form>
 </body>
