@@ -1,6 +1,7 @@
 package com.skilldistillery.film.controllers;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -45,13 +46,23 @@ public class FilmController {
 		return mv;
 	}
 	
-	@RequestMapping(path="filmByKeyword.do", params="keyword", method= RequestMethod.GET)
-	public ModelAndView filmByKeyword(String keyword) throws SQLException { 
+	@RequestMapping(path="filmByKeyword.do", method= RequestMethod.GET)
+	public ModelAndView filmByKeyword() throws SQLException { 
 		
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("WEB-INF/views/filmbyidresults.jsp");
-		mv.addObject("film", filmDao.findFilmByKeyword(keyword));
-//		mv.addObject("languageString", filmDao.languageFromId(id));
+		mv.setViewName("WEB-INF/views/filmbykeyword.jsp");
+		return mv;
+	}
+	
+	@RequestMapping(path="filmByKeyword.do", params="keyword", method= {RequestMethod.GET, RequestMethod.POST})
+	public ModelAndView filmByKeyword(String keyword) throws SQLException { 
+		List<Film> films = filmDao.findFilmByKeyword(keyword);
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("WEB-INF/views/keywordresults.jsp");
+		for (Film film : films) {
+			mv.addObject("languageString", filmDao.languageFromId(film.getLanguageId()));
+		}
+		mv.addObject("films", films);
 		return mv;
 	}
 	
