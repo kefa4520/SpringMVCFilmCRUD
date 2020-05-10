@@ -13,5 +13,6 @@
 
 <a href="addFilm.do">Add a Film</a><br/>
 <a href="filmById.do">Find a Film by ID</a><br/>
+<a href="filmByKeyword.do">Find a Film by Keyword</a><br/>
 </body>
 </html>

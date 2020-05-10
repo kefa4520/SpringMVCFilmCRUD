@@ -37,11 +37,21 @@ public class FilmController {
 	}
 	@RequestMapping(path="filmById.do", params="id", method= {RequestMethod.GET, RequestMethod.POST})
 	public ModelAndView filmByID(int id) throws SQLException { // int id here has to match params="id"
-		
+		Film film = filmDao.findFilmById(id);
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("WEB-INF/views/filmbyidresults.jsp");
 		mv.addObject("film", filmDao.findFilmById(id));
-		mv.addObject("languageString", filmDao.languageFromId(id));
+		mv.addObject("languageString", filmDao.languageFromId(film.getLanguageId()));
+		return mv;
+	}
+	
+	@RequestMapping(path="filmByKeyword.do", params="keyword", method= RequestMethod.GET)
+	public ModelAndView filmByKeyword(String keyword) throws SQLException { 
+		
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("WEB-INF/views/filmbyidresults.jsp");
+		mv.addObject("film", filmDao.findFilmByKeyword(keyword));
+//		mv.addObject("languageString", filmDao.languageFromId(id));
 		return mv;
 	}
 	
