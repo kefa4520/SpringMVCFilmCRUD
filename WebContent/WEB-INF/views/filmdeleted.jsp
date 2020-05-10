@@ -8,8 +8,15 @@
 <title>Film Deleted</title>
 </head>
 <body>
-
-  <h3>Film deleted successfully!</h3>
+<c:choose>
+    <c:when test="${isdeleted}">
+      <p>Film deleted successfully!</p>
+    </c:when>
+    <c:otherwise>
+      <p>Error deleting the film!</p>
+    </c:otherwise>
+  </c:choose>
+  
 
 </body>
 </html>
