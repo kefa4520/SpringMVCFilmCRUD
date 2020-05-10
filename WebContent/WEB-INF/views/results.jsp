@@ -37,7 +37,7 @@
     <input type="number" name="releaseYear" value="${film.releaseYear}"/>
     Rating: ${film.rating}
     
-    <select id="rating">
+    <select id="rating" name="rating">
     	<option value="G">General Audiences</option>
     	<option value="PG">Parental Guidance Suggested</option>
     	<option value="PG13">Parents Strongly Cautioned</option>
@@ -45,7 +45,7 @@
     	<option value="NC17">Adults Only</option>
     </select>
     Language:
-    <select id="languages">
+    <select id="languages" name="languageString">
     	<option value="1">English</option>
     	<option value="2">Italian</option>
     	<option value="3">Japanese</option>
