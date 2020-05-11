@@ -119,8 +119,8 @@ public class FilmDAOImpl implements FilmDAO {
 		String category = null; 
 		
 		Connection conn = DriverManager.getConnection(URL, user, pass);
-		String sql = "SELECT category.name FROM category JOIN film_category ON film_category.film_id = category.id"
-				+ " JOIN film ON film.id = film_category.film_id WHERE film_id = ?";
+		String sql = "SELECT category.name FROM film JOIN film_category ON film.id = film_category.film_id" 
+		+ " JOIN category ON category.id = film_category.category_id WHERE film.id = ?;";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, filmId);
 		ResultSet rs = stmt.executeQuery();
