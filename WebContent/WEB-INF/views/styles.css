@@ -1,0 +1,12 @@
+@charset "UTF-8";
+.jumbotron {
+	height: 100%;
+	width: 100%;
+	background-color: red!important;
+}
+.container {
+	width: 1025px;
+}
+.jumbotron .container {
+	max-width: 100%;
+}

@@ -6,31 +6,44 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+	crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="styles.css">
+
 <title>Film</title>
 </head>
 <body>
+
+<div class="container-fluid">
+		<div class="jumbotron- text-left" role="alert">
+
   <c:choose>
     <c:when test="${! empty film}">
-      <ul>
-     	<li>ID: ${film.id }</li>
-        <li>TITLE: ${film.title}</li>
-        <li>DESCRIPTION: ${film.description}</li>
-        <li>RELEASE YEAR: ${film.releaseYear}</li>
-        <li>LANGUAGE: ${languageString}</li>
-        <li>RATING: ${film.rating}</li>
-        <li>ACTORS: ${actors}</li>
-        <li>CATEGORY: ${category}</li>
+      <ul style="list-style-type:none" class="list-group">
+      
+     	<li class="list-group-item list-group-item-primary">ID: ${film.id }</li>
+        <li class="list-group-item list-group-item-secondary">TITLE: ${film.title}</li>
+        <li class="list-group-item list-group-item-success">DESCRIPTION: ${film.description}</li>
+        <li class="list-group-item list-group-item-warning">RELEASE YEAR: ${film.releaseYear}</li>
+        <li class="list-group-item list-group-item-info">LANGUAGE: ${languageString}</li>
+        <li class="list-group-item list-group-item-success">RATING: ${film.rating}</li>
+        <li class="list-group-item list-group-item-dark">ACTORS: ${actors}</li>
+        <li  class="list-group-item list-group-item-danger">CATEGORY: ${category}</li>
       </ul>
        </c:when> 
    
   </c:choose>
-  
+  <div class="bg-primary text-white">
         Delete this film?
-    <form action="deleteFilm.do" method="POST">
+    <form action="deleteFilm.do" method="POST" class="text-danger">
     Enter the film ID to Delete:
  	<input type="number" name="filmId"/>
     <input type="submit" value="Delete Film"/>
   </form>
+  
   <form action="updateFilm.do" method="POST">
   	Change the film?:
   	<br>
@@ -40,6 +53,7 @@
     <input type="text" name="title" value="${film.title}"/> 
     Description:
     <input type="text" name="description" value="${film.description}"/> 
+    <br>
     Release Year:
     <input type="number" name="releaseYear" value="${film.releaseYear}"/>
     Rating: ${film.rating}
@@ -62,6 +76,22 @@
     </select> -->
     <input type="submit" value="Update Film Data"/>
   </form>
+  </div>
+  
+  </div>
+	</div>
+  
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+		integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+		integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+		crossorigin="anonymous"></script>
 
 </body>
 </html>
