@@ -17,8 +17,19 @@ public class Film {
 	private String rating;
 	private String specialFeatures;
 	private List<Actor> actors;
+	private String category;
 	
 	
+	
+	
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String categories) {
+		this.category = categories;
+	}
+
 	public Film() {
 		
 	}
@@ -202,16 +213,11 @@ public class Film {
 
 	@Override
 	public String toString() {
-
-		return "Film ID: " + id + " Film title: " + title + "\nDescription: " + description + "\nRelease Year: " + releaseYear + "\nRating: "
-				+ rating + "\nLanguage: " + languageString;
-
+		return "Film id=" + id + ", title=" + title + ", description=" + description + ", releaseYear=" + releaseYear
+				+ ", rating=" + rating + ", actors=" + actors + ", categories=" + category  + "\nLanguage: " + languageString;
 	}
 
-	//@Override
-//	public String toString() {
-//		return "Film title: " + title + "\nDescription: " + description + "\nRelease Year: " + releaseYear + "\nRating: "
-//				+ rating + "\nLanguage: " + languageString;
+
 	
 	}
 	

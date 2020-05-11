@@ -45,6 +45,7 @@ public class FilmController {
 		mv.addObject("film", filmDao.findFilmById(id));
 		mv.addObject("actors", filmDao.findActorsByFilmId(id));
 		mv.addObject("languageString", filmDao.languageFromId(film.getLanguageId()));
+		mv.addObject("category", filmDao.findCategoriesByFilmId(id));
 		return mv;
 	}
 	
@@ -65,7 +66,7 @@ public class FilmController {
 		for (Film film : films) {
 			film.setActors(filmDao.findActorsByFilmId(film.getId()));
 			film.setLanguageString(filmDao.languageFromId(film.getLanguageId()));
-			
+			film.setCategory(filmDao.findCategoriesByFilmId(film.getId()));
 //		mv.addObject("languageString", filmDao.languageFromId(film.getLanguageId()));
 //		mv.addObject("actors", filmDao.findActorsByFilmId(film.getId()));
 		}

@@ -19,8 +19,9 @@
         <li>LANGUAGE: ${languageString}</li>
         <li>RATING: ${film.rating}</li>
         <li>ACTORS: ${actors}</li>
+        <li>CATEGORY: ${category}</li>
       </ul>
-    </c:when>
+       </c:when> 
     <c:otherwise>
       <p>No film with that ID!</p>
     </c:otherwise>

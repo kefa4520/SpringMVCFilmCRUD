@@ -6,14 +6,22 @@ import java.util.List;
 import com.skilldistillery.film.entities.Actor;
 import com.skilldistillery.film.entities.Film;
 
-
 public interface FilmDAO {
-	  public Film findFilmById(int filmId) throws SQLException;
-	  public Actor findActorById(int actorId) throws SQLException;
-	  public List<Actor> findActorsByFilmId(int filmId) throws SQLException;
-	  public List<Film> findFilmByKeyword(String keyword) throws SQLException;
-	  public String languageFromId(int languageId) throws SQLException;
-	  public Film createFilm(Film film) throws SQLException;
-	  public boolean deleteFilm(int filmId) throws SQLException;
-	  public Film updateFilm(Film film) throws SQLException;
+	public Film findFilmById(int filmId) throws SQLException;
+
+	public Actor findActorById(int actorId) throws SQLException;
+
+	public List<Actor> findActorsByFilmId(int filmId) throws SQLException;
+
+	public List<Film> findFilmByKeyword(String keyword) throws SQLException;
+
+	public String languageFromId(int languageId) throws SQLException;
+
+	public Film createFilm(Film film) throws SQLException;
+
+	public boolean deleteFilm(int filmId) throws SQLException;
+
+	public Film updateFilm(Film film) throws SQLException;
+
+	public String findCategoriesByFilmId(int filmId) throws SQLException;
 }

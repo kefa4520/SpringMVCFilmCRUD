@@ -29,6 +29,8 @@ public class FilmDAOImpl implements FilmDAO {
 
 	@Override
 	public Film findFilmById(int filmId) throws SQLException {
+		
+		//When a film's details are displayed, its actors and categories are also listed************************************
 		Film film = null;
 
 		Connection conn = DriverManager.getConnection(URL, user, pass);
@@ -112,9 +114,30 @@ public class FilmDAOImpl implements FilmDAO {
 
 		return actors;
 	}
+	@Override
+	public String findCategoriesByFilmId(int filmId) throws SQLException {
+		String category = null; 
+		
+		Connection conn = DriverManager.getConnection(URL, user, pass);
+		String sql = "SELECT category.name FROM category JOIN film_category ON film_category.film_id = category.id"
+				+ " JOIN film ON film.id = film_category.film_id WHERE film_id = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, filmId);
+		ResultSet rs = stmt.executeQuery();
+		while (rs.next()) {
+			category = rs.getString("category.name");
+			
+		}
+		rs.close();
+		stmt.close();
+		conn.close();
+		
+		return category;
+	}
 
 	@Override
 	public List<Film> findFilmByKeyword(String keyword) throws SQLException {
+		//When a film's details are displayed, its actors and categories are also listed************************************
 		List<Film> films = new ArrayList<>();
 		Film film = null;
 

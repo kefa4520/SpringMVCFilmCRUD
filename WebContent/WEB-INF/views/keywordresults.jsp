@@ -13,7 +13,6 @@
  	
   <c:choose>
     <c:when test="${! empty film}">
-    ${film}
       <ul>
      	<li>ID: ${film.id }</li>
         <li>TITLE: ${film.title}</li>
@@ -22,6 +21,7 @@
         <li>LANGUAGE: ${film.languageString}</li>
         <li>RATING: ${film.rating}</li>
         <li>ACTORS: ${film.actors}</li>
+        <li>CATEGORY: ${film.category}</li>
       </ul>
     </c:when>
     <c:otherwise>
