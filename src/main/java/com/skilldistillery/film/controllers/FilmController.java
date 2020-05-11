@@ -41,12 +41,17 @@ public class FilmController {
 		Film film = filmDao.findFilmById(id);
 		//List<Actor> actors
 		ModelAndView mv = new ModelAndView();
+		if(film != null) {
 		mv.setViewName("WEB-INF/views/filmbyidresults.jsp");
 		mv.addObject("film", filmDao.findFilmById(id));
 		mv.addObject("actors", filmDao.findActorsByFilmId(id));
 		mv.addObject("languageString", filmDao.languageFromId(film.getLanguageId()));
 		mv.addObject("category", filmDao.findCategoriesByFilmId(id));
 		return mv;
+		} else {
+			mv.setViewName("WEB-INF/views/error.jsp");
+		return mv;
+		}
 	}
 	
 	@RequestMapping(path="filmByKeyword.do", method= RequestMethod.GET)
@@ -59,10 +64,11 @@ public class FilmController {
 	
 	@RequestMapping(path="filmByKeyword.do", params= "keyword", method= RequestMethod.GET)
 	public ModelAndView filmByKeyword(String keyword) throws SQLException { 
+		
 		List<Film> films = filmDao.findFilmByKeyword(keyword);
-		System.out.println(keyword);
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("WEB-INF/views/keywordresults.jsp");
+		if(!films.isEmpty()) {
+		
 		for (Film film : films) {
 			film.setActors(filmDao.findActorsByFilmId(film.getId()));
 			film.setLanguageString(filmDao.languageFromId(film.getLanguageId()));
@@ -70,8 +76,14 @@ public class FilmController {
 //		mv.addObject("languageString", filmDao.languageFromId(film.getLanguageId()));
 //		mv.addObject("actors", filmDao.findActorsByFilmId(film.getId()));
 		}
+		mv.setViewName("WEB-INF/views/keywordresults.jsp");
 		mv.addObject("films", films);
 		return mv;
+		} else {
+			mv.setViewName("WEB-INF/views/error.jsp");
+			return mv;
+		}
+
 	}
 	
 	
@@ -113,6 +125,9 @@ public class FilmController {
 			mv.setViewName("WEB-INF/views/filmbyidresults.jsp");
 			mv.addObject("film", updatedFilm);
 			mv.addObject("languageString", filmDao.languageFromId(1));
+			mv.addObject("category", filmDao.findCategoriesByFilmId(film.getId()));
+			mv.addObject("actors", filmDao.findActorsByFilmId(film.getId()));
+			
 			return mv;
 		}
 		else {

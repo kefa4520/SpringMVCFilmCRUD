@@ -22,11 +22,10 @@
         <li>CATEGORY: ${category}</li>
       </ul>
        </c:when> 
-    <c:otherwise>
-      <p>No film with that ID!</p>
-    </c:otherwise>
+   
   </c:choose>
-    Delete this film?
+  
+        Delete this film?
     <form action="deleteFilm.do" method="POST">
     Enter the film ID to Delete:
  	<input type="number" name="filmId"/>
