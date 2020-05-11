@@ -39,6 +39,7 @@ public class FilmController {
 	@RequestMapping(path="filmById.do", params="id", method= {RequestMethod.GET, RequestMethod.POST})
 	public ModelAndView filmByID(int id) throws SQLException { // int id here has to match params="id"
 		Film film = filmDao.findFilmById(id);
+		//List<Actor> actors
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("WEB-INF/views/filmbyidresults.jsp");
 		mv.addObject("film", filmDao.findFilmById(id));
@@ -55,14 +56,18 @@ public class FilmController {
 		return mv;
 	}
 	
-	@RequestMapping(path="filmByKeyword.do", params="keyword", method= RequestMethod.GET)
+	@RequestMapping(path="filmByKeyword.do", params= "keyword", method= RequestMethod.GET)
 	public ModelAndView filmByKeyword(String keyword) throws SQLException { 
 		List<Film> films = filmDao.findFilmByKeyword(keyword);
+		System.out.println(keyword);
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("WEB-INF/views/keywordresults.jsp");
 		for (Film film : films) {
-		mv.addObject("languageString", filmDao.languageFromId(film.getLanguageId()));
-		mv.addObject("actors", filmDao.findActorsByFilmId(film.getId()));
+			film.setActors(filmDao.findActorsByFilmId(film.getId()));
+			film.setLanguageString(filmDao.languageFromId(film.getLanguageId()));
+			
+//		mv.addObject("languageString", filmDao.languageFromId(film.getLanguageId()));
+//		mv.addObject("actors", filmDao.findActorsByFilmId(film.getId()));
 		}
 		mv.addObject("films", films);
 		return mv;

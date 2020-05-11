@@ -144,7 +144,7 @@ public class FilmDAOImpl implements FilmDAO {
 			film.setRating(rs.getString("rating"));
 			film.setSpecialFeatures(rs.getString("special_features"));
 			film.setActors(findActorsByFilmId(rs.getInt("id")));
-//			film.setLanguageString(languageFromId(rs.getInt("id")));
+     		film.setLanguageString(languageFromId(rs.getInt("language_id")));
 			films.add(film);
 		}
 		rs.close();
@@ -167,7 +167,7 @@ public class FilmDAOImpl implements FilmDAO {
 		System.out.println(ps);
 		ResultSet rs = ps.executeQuery();
 
-		while (rs.next()) {
+		if (rs.next()) {
 			language = rs.getString(1);
 			System.out.println("in language while loop");
 		}

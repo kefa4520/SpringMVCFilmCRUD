@@ -9,7 +9,7 @@
 <title>Film</title>
 </head>
 <body>
- <c:forEach var="film" items="${films}">
+<c:forEach var="film" items="${films}">
  	
   <c:choose>
     <c:when test="${! empty film}">
@@ -19,9 +19,9 @@
         <li>TITLE: ${film.title}</li>
         <li>DESCRIPTION: ${film.description}</li>
         <li>RELEASE YEAR: ${film.releaseYear}</li>
-        <li>LANGUAGE: ${languageString}</li>
+        <li>LANGUAGE: ${film.languageString}</li>
         <li>RATING: ${film.rating}</li>
-        <li>ACTORS: ${actors}</li>
+        <li>ACTORS: ${film.actors}</li>
       </ul>
     </c:when>
     <c:otherwise>
@@ -72,6 +72,6 @@
     </select> -->
     <input type="submit" value="Update Film Data"/>
   </form>
-</c:forEach>
+</c:forEach> 
 </body>
 </html>
